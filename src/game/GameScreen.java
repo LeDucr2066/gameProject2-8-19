@@ -2,7 +2,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.util.Random;
-
+import java.awt.image.BufferedImage;
+import javax.imageio.ImageIO;
+import java.io.IOException;
+import javax.swing.JPanel;
 
 public class GameScreen extends JPanel {
     //window Dimensions
@@ -16,23 +19,23 @@ public class GameScreen extends JPanel {
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
         setFocusable(true);
         requestFocus();
+        init();
+    }
 
+    BufferedImage img = null;
+    private void init(){
+        try {
+            img = ImageIO.read(getClass().getResourceAsStream("/Pictures/workplease.png"));
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
     }
 
     public void paintComponent(Graphics g){
         super.paintComponent(g);
-        g.fillRect(0, 0, WIDTH, HEIGHT);
-
-        Random r = new Random();
-        Color RandomColor = new Color(r.nextInt(256), r.nextInt(256), r.nextInt(256));
-        g.setColor(RandomColor);
-
-        for(int i=0; i < 3000; i++) {
-            int x = Math.abs(r.nextInt() % WIDTH);
-            int y = Math.abs(r.nextInt() % HEIGHT);
-
-            System.out.println("x: " + x + "\ty:" + y);
-            g.drawLine(x, y, x, y);
+        if (img != null){
+            g.drawImage(img, 0, 0, null);
         }
     }
 
